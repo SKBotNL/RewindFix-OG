@@ -17,13 +17,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
 public class BoatFixOG extends JavaPlugin {
-    private static BoatFixOG plugin;
-    private static ProtocolManager protocolManager;
 
     @Override
     public void onEnable() {
-        plugin = this;
-        protocolManager = ProtocolLibrary.getProtocolManager();
+        ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
 
         protocolManager.addPacketListener(new PacketAdapter(this, ListenerPriority.NORMAL, PacketType.Play.Client.STEER_VEHICLE) {
             @Override
@@ -37,6 +34,10 @@ public class BoatFixOG extends JavaPlugin {
 
                 float sideways = packet.getFloat().read(0);
                 float forward = packet.getFloat().read(1);
+
+                if (!(event.getPlayer().getVehicle() instanceof CraftBoat)) {
+                    return;
+                }
 
                 if (forward == 0 && sideways == 0) {
                     return;

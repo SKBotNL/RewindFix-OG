@@ -13,7 +13,7 @@ public class Helper {
             boatTimeout.put(uuid, System.currentTimeMillis());
         }
 
-        if (System.currentTimeMillis() - boatTimeout.get(uuid) > 150) {
+        if (System.currentTimeMillis() - boatTimeout.get(uuid) > 250) {
             boatTimeout.put(uuid, System.currentTimeMillis());
             cooldown = 0;
         }
