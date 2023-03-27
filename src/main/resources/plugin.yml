@@ -1,0 +1,6 @@
+name: BoatFix-OG
+version: '${version}'
+main: nl.skbotnl.boatfixog.BoatFixOG
+author: SKBotNL
+api-version: 1.18
+depend: [ProtocolLib]
