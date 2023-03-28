@@ -1,4 +1,4 @@
-# BoatFix-OG
+# RewindFix-OG
 Makes some vehicles (boats, horses, donkeys, mules) usable on versions lower than 1.9
 
 Actually mimicking the 1.9 boats is nearly impossible because the <1.9 and 1.9+ clients handle boats completely different
