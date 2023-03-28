@@ -1,4 +1,4 @@
-name: BoatFix-OG
+name: RewindFix-OG
 version: '${version}'
 main: nl.skbotnl.rewindfixog.RewindFixOG
 author: SKBotNL
