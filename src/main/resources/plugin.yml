@@ -1,6 +1,6 @@
 name: BoatFix-OG
 version: '${version}'
-main: nl.skbotnl.boatfixog.BoatFixOG
+main: nl.skbotnl.rewindfixog.RewindFixOG
 author: SKBotNL
 api-version: 1.18
-depend: [ProtocolLib]
+depend: [ProtocolLib, ViaVersion]

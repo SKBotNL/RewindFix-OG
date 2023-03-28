@@ -1,4 +1,4 @@
-package nl.skbotnl.boatfixog;
+package nl.skbotnl.rewindfixog;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +13,7 @@ public class Helper {
             boatTimeout.put(uuid, System.currentTimeMillis());
         }
 
-        if (System.currentTimeMillis() - boatTimeout.get(uuid) > 250) {
+        if (System.currentTimeMillis() - boatTimeout.get(uuid) > 150) {
             boatTimeout.put(uuid, System.currentTimeMillis());
             cooldown = 0;
         }
