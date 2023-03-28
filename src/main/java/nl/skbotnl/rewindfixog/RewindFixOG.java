@@ -8,6 +8,7 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.viaversion.viaversion.api.Via;
+import com.viaversion.viaversion.api.ViaAPI;
 import net.minecraft.world.entity.animal.horse.EntityHorseAbstract;
 import net.minecraft.world.entity.vehicle.EntityBoat;
 import org.bukkit.Bukkit;
@@ -38,7 +39,8 @@ public class RewindFixOG extends JavaPlugin implements Listener {
                         return;
                     }
 
-                    if (Via.getAPI().getPlayerVersion(player) > 107) {
+                    ViaAPI<?> api = Via.getAPI();
+                    if (api.getPlayerVersion(player.getUniqueId()) > 107) {
                         return;
                     }
 
@@ -63,7 +65,8 @@ public class RewindFixOG extends JavaPlugin implements Listener {
             @Override
             public void onPacketReceiving(PacketEvent event) {
                 Player player = event.getPlayer();
-                if (Via.getAPI().getPlayerVersion(player) > 107) {
+                ViaAPI<?> api = Via.getAPI();
+                if (api.getPlayerVersion(player.getUniqueId()) > 107) {
                     return;
                 }
 
