@@ -81,5 +81,6 @@ compileJava { // Build Java code.
     options.compilerArgs += ["-parameters"] // Pass any parameters specified while executing Gradle wrapper as Java compiler arguments.
     options.fork = true
     options.forkOptions.executable = 'javac' // Define Java compiler executable.
+    options.encoding = 'UTF-8'
 
 }
