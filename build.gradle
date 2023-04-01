@@ -1,6 +1,5 @@
 plugins {
 
-    id "java" // Tell Gradle that this is a Java project.
     id "com.github.johnrengelman.shadow" version "7.1.2" // Import Shadow utility to package all libraries into the plugin's .jar file.
     id "org.jetbrains.kotlin.jvm" version "1.8.20"
 
