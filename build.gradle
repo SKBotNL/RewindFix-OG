@@ -2,6 +2,7 @@ plugins {
 
     id "java" // Tell Gradle that this is a Java project.
     id "com.github.johnrengelman.shadow" version "7.1.2" // Import Shadow utility to package all libraries into the plugin's .jar file.
+    id "org.jetbrains.kotlin.jvm" version "1.8.20"
 
 }
 
@@ -76,11 +77,6 @@ tasks.shadowJar.configure {
 
 }
 
-compileJava { // Build Java code.
-
-    options.compilerArgs += ["-parameters"] // Pass any parameters specified while executing Gradle wrapper as Java compiler arguments.
-    options.fork = true
-    options.forkOptions.executable = 'javac' // Define Java compiler executable.
-    options.encoding = 'UTF-8'
-
+kotlin {
+    jvmToolchain(17)
 }
