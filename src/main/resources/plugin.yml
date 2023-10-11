@@ -3,4 +3,4 @@ version: '${version}'
 main: nl.skbotnl.rewindfixog.RewindFixOG
 author: SKBotNL
 api-version: 1.18
-depend: [ProtocolLib, ViaVersion]
+depend: [ ProtocolLib, ViaVersion ]
