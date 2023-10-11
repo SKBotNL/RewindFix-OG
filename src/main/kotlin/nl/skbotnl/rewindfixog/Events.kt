@@ -1,5 +1,6 @@
 package nl.skbotnl.rewindfixog
 
+import org.bukkit.Material
 import org.bukkit.entity.Boat
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -20,8 +21,8 @@ class Events : Listener {
         if (RewindFixOG.viaApi.getPlayerVersion(player.uniqueId) > 107) {
             return
         }
-        if (player.isInWater && player.isSprinting) {
-            player.velocity = player.location.direction.multiply(0.17)
+        if (player.isSprinting && player.world.getBlockAt(player.location.add(0.0, 1.5, 0.0)).type == Material.WATER) {
+            player.velocity = player.location.direction.multiply(0.26)
         }
     }
 }
