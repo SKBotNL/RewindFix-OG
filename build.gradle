@@ -4,9 +4,9 @@ plugins {
 }
 
 group = "nl.skbotnl.rewindfix-og" // Declare bundle identifier.
-version = "1.1" // Declare version number.
+version = "1.2" // Declare version number.
 
-def apiVersion = "1.18.2" // Declare minecraft server target version.
+def apiVersion = "1.19" // Declare minecraft server target version.
 
 processResources {
     def props = [
@@ -44,8 +44,8 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'org.spigotmc:spigot:1.18.2-R0.1-SNAPSHOT'
-    compileOnly "org.purpurmc.purpur:purpur-api:1.18.2-R0.1-SNAPSHOT" // Declare the Purpur API version to be packaged.
+    compileOnly 'org.spigotmc:spigot:1.19.4-R0.1-SNAPSHOT'
+    compileOnly "org.purpurmc.purpur:purpur-api:1.19.4-R0.1-SNAPSHOT"
     compileOnly "com.viaversion:viaversion-api:4.8.1"
     compileOnly "com.comphenix.protocol:ProtocolLib:5.1.0"
 }

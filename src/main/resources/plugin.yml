@@ -2,5 +2,5 @@ name: RewindFix-OG
 version: '${version}'
 main: nl.skbotnl.rewindfixog.RewindFixOG
 author: SKBotNL
-api-version: 1.18
+api-version: '${apiVersion}'
 depend: [ ProtocolLib, ViaVersion ]
