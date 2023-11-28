@@ -3,7 +3,7 @@ plugins {
     id "org.jetbrains.kotlin.jvm" version "1.9.10"
 }
 
-group = "nl.skbotnl.rewindfix-og" // Declare bundle identifier.
+group = "nl.skbotnl.rewindfixog" // Declare bundle identifier.
 version = "1.2" // Declare version number.
 
 def apiVersion = "1.19" // Declare minecraft server target version.
