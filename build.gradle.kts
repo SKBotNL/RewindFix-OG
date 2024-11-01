@@ -58,7 +58,7 @@ dependencies {
     compileOnly("org.spigotmc:spigot:1.19.4-R0.1-SNAPSHOT")
  compileOnly("io.github.miniplaceholders:miniplaceholders-api:2.2.3") // Import MiniPlaceholders API.
     compileOnly("org.purpurmc.purpur:purpur-api:1.19.4-R0.1-SNAPSHOT") // Import Purpur API.
-    compileOnly("com.viaversion:viaversion-api:5.0.5") // Import ViaVersion API.
+    compileOnly("com.viaversion:viaversion-api:5.1.0") // Import ViaVersion API.
     compileOnly("com.comphenix.protocol:ProtocolLib:5.1.0") // Import ProtocolLib API.
 
 }
