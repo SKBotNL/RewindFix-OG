@@ -54,7 +54,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:1.21.3-R0.1-SNAPSHOT")
     compileOnly("org.spigotmc:spigot:1.19.4-R0.1-SNAPSHOT")
  compileOnly("io.github.miniplaceholders:miniplaceholders-api:2.2.3") // Import MiniPlaceholders API.
     compileOnly("org.purpurmc.purpur:purpur-api:1.19.4-R0.1-SNAPSHOT") // Import Purpur API.
