@@ -34,13 +34,13 @@ if (customMavenLocal != null) {
 repositories {
     mavenCentral()
     gradlePluginPortal()
+    mavenLocal()
     maven("https://repo.purpurmc.org/snapshots")
     maven("https://repo.viaversion.com")
     maven("https://repo.dmulloy2.net/repository/public")
     maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots")
     maven("https://oss.sonatype.org/content/repositories/snapshots")
     maven("https://oss.sonatype.org/content/repositories/central")
-    maven("file://${System.getProperty("user.home")}/.m2/repository")
 }
 
 dependencies {
