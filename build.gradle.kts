@@ -31,16 +31,16 @@ repositories {
     mavenCentral()
     gradlePluginPortal()
     maven {
-        url = uri("https://repo.purpurmc.org/snapshots/")
+        url = uri("https://repo.purpurmc.org/snapshots")
     }
     maven {
-        url = uri("https://repo.viaversion.com/")
+        url = uri("https://repo.viaversion.com")
     }
     maven {
-        url = uri("https://repo.dmulloy2.net/repository/public/")
+        url = uri("https://repo.dmulloy2.net/repository/public")
     }
     maven {
-        url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+        url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots")
     }
     maven {
         url = uri("https://oss.sonatype.org/content/repositories/snapshots") // Spigot dependency.
@@ -53,14 +53,30 @@ repositories {
     }
 }
 
+// Attempt to add SELF_MAVEN_LOCAL_REPO from the TrueOG Bootstrap as a Maven repo if available.
+val selfMavenLocalRepo = System.getenv("SELF_MAVEN_LOCAL_REPO") ?: System.getProperty("SELF_MAVEN_LOCAL_REPO")
+if (selfMavenLocalRepo != null) {
+    val repoFile = file(selfMavenLocalRepo)
+    if (repoFile.exists()) {
+        repositories {
+            maven {
+                url = uri("file://${repoFile.absolutePath}")
+            }
+        }
+    } else {
+        logger.error("ERROR: You must build remapped Spigot BuildTools before compiling this plugin. You can use the TrueOG Bootstrap to do this automatically.")
+    }
+} else {
+    logger.error("ERROR: You must build remapped Spigot BuildTools before compiling this plugin. You can use the TrueOG Bootstrap to do this automatically.")
+}
+
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT")
     compileOnly("org.spigotmc:spigot:1.19.4-R0.1-SNAPSHOT")
- compileOnly("io.github.miniplaceholders:miniplaceholders-api:2.2.3") // Import MiniPlaceholders API.
+    compileOnly("io.github.miniplaceholders:miniplaceholders-api:2.2.3") // Import MiniPlaceholders API.
     compileOnly("org.purpurmc.purpur:purpur-api:1.19.4-R0.1-SNAPSHOT") // Import Purpur API.
     compileOnly("com.viaversion:viaversion-api:5.0.5") // Import ViaVersion API.
     compileOnly("com.comphenix.protocol:ProtocolLib:5.1.0") // Import ProtocolLib API.
-
 }
 
 tasks.withType<AbstractArchiveTask>().configureEach { // Ensure reproducible builds.
@@ -102,3 +118,4 @@ java {
         vendor = JvmVendorSpec.GRAAL_VM
     }
 }
+
