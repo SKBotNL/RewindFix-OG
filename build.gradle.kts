@@ -14,6 +14,44 @@ group = "nl.skbotnl.rewindfixog" // Declare bundle identifier.
 version = "1.2.1" // Declare plugin version (will be in .jar).
 val apiVersion = "1.19" // Declare minecraft server target version.
 
+val customMavenLocal = System.getProperty("SELF_MAVEN_LOCAL_REPO")
+if (customMavenLocal != null) {
+    val mavenLocalDir = file(customMavenLocal)
+    if (mavenLocalDir.isDirectory) {
+        println("Using SELF_MAVEN_LOCAL_REPO at: $customMavenLocal")
+        repositories {
+            maven {
+                url = uri("file://${mavenLocalDir.absolutePath}")
+            }
+        }
+    } else {
+        logger.error("TrueOG Bootstrap not found, defaulting to ~/.m2 for mavenLocal()")
+    }
+} else {
+    logger.error("TrueOG Bootstrap not found, defaulting to ~/.m2 to mavenLocal()")
+}
+
+repositories {
+    mavenCentral()
+    gradlePluginPortal()
+    mavenLocal()
+    maven("https://repo.purpurmc.org/snapshots")
+    maven("https://repo.viaversion.com")
+    maven("https://repo.dmulloy2.net/repository/public")
+    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots")
+    maven("https://oss.sonatype.org/content/repositories/snapshots")
+    maven("https://oss.sonatype.org/content/repositories/central")
+}
+
+dependencies {
+    compileOnly("org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot:1.19.4-R0.1-SNAPSHOT")
+    compileOnly("io.github.miniplaceholders:miniplaceholders-api:2.2.3") // Import MiniPlaceholders API.
+    compileOnly("org.purpurmc.purpur:purpur-api:1.19.4-R0.1-SNAPSHOT") // Import Purpur API.
+    compileOnly("com.viaversion:viaversion-api:5.0.5") // Import ViaVersion API.
+    compileOnly("com.comphenix.protocol:ProtocolLib:5.1.0") // Import ProtocolLib API.
+}
+
 tasks.named<ProcessResources>("processResources") {
     val props = mapOf(
         "version" to version,
@@ -25,42 +63,6 @@ tasks.named<ProcessResources>("processResources") {
     filesMatching("plugin.yml") {
         expand(props)
     }
-}
-
-repositories {
-    mavenCentral()
-    gradlePluginPortal()
-    maven {
-        url = uri("https://repo.purpurmc.org/snapshots/")
-    }
-    maven {
-        url = uri("https://repo.viaversion.com/")
-    }
-    maven {
-        url = uri("https://repo.dmulloy2.net/repository/public/")
-    }
-    maven {
-        url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
-    }
-    maven {
-        url = uri("https://oss.sonatype.org/content/repositories/snapshots") // Spigot dependency.
-    }
-    maven {
-        url = uri("https://oss.sonatype.org/content/repositories/central") // Spigot dependency.
-    }
-    maven {
-        url = uri("file://${System.getProperty("user.home")}/.m2/repository") // Import BuildTools from MavenLocal.
-    }
-}
-
-dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT")
-    compileOnly("org.spigotmc:spigot:1.19.4-R0.1-SNAPSHOT")
- compileOnly("io.github.miniplaceholders:miniplaceholders-api:2.2.3") // Import MiniPlaceholders API.
-    compileOnly("org.purpurmc.purpur:purpur-api:1.19.4-R0.1-SNAPSHOT") // Import Purpur API.
-    compileOnly("com.viaversion:viaversion-api:5.0.5") // Import ViaVersion API.
-    compileOnly("com.comphenix.protocol:ProtocolLib:5.1.0") // Import ProtocolLib API.
-
 }
 
 tasks.withType<AbstractArchiveTask>().configureEach { // Ensure reproducible builds.
@@ -102,3 +104,4 @@ java {
         vendor = JvmVendorSpec.GRAAL_VM
     }
 }
+
