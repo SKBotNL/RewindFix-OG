@@ -14,60 +14,35 @@ group = "nl.skbotnl.rewindfixog" // Declare bundle identifier.
 version = "1.2.1" // Declare plugin version (will be in .jar).
 val apiVersion = "1.19" // Declare minecraft server target version.
 
-tasks.named<ProcessResources>("processResources") {
-    val props = mapOf(
-        "version" to version,
-        "apiVersion" to apiVersion
-    )
-
-    inputs.properties(props) // Indicates to rerun if version changes.
-
-    filesMatching("plugin.yml") {
-        expand(props)
-    }
-}
-
-repositories {
-    mavenCentral()
-    gradlePluginPortal()
-    maven {
-        url = uri("https://repo.purpurmc.org/snapshots")
-    }
-    maven {
-        url = uri("https://repo.viaversion.com")
-    }
-    maven {
-        url = uri("https://repo.dmulloy2.net/repository/public")
-    }
-    maven {
-        url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots")
-    }
-    maven {
-        url = uri("https://oss.sonatype.org/content/repositories/snapshots") // Spigot dependency.
-    }
-    maven {
-        url = uri("https://oss.sonatype.org/content/repositories/central") // Spigot dependency.
-    }
-    maven {
-        url = uri("file://${System.getProperty("user.home")}/.m2/repository") // Import BuildTools from MavenLocal.
-    }
-}
-
-// Attempt to add SELF_MAVEN_LOCAL_REPO from the TrueOG Bootstrap as a Maven repo if available.
-val selfMavenLocalRepo = System.getenv("SELF_MAVEN_LOCAL_REPO") ?: System.getProperty("SELF_MAVEN_LOCAL_REPO")
+val selfMavenLocalRepo = System.getProperty("SELF_MAVEN_LOCAL_REPO")
+var addedBootstrapRepo = false
 if (selfMavenLocalRepo != null) {
     val repoFile = file(selfMavenLocalRepo)
     if (repoFile.exists()) {
+        println("Using SELF_MAVEN_LOCAL_REPO at: $selfMavenLocalRepo")
         repositories {
             maven {
                 url = uri("file://${repoFile.absolutePath}")
             }
         }
+        addedBootstrapRepo = true
     } else {
-        logger.error("ERROR: You must build remapped Spigot BuildTools before compiling this plugin. You can use the TrueOG Bootstrap to do this automatically.")
+        logger.error("ERROR: You must build remapped Spigot BuildTools before compiling this plugin. Use the TrueOG Bootstrap.")
     }
 } else {
-    logger.error("ERROR: You must build remapped Spigot BuildTools before compiling this plugin. You can use the TrueOG Bootstrap to do this automatically.")
+    logger.error("ERROR: You must build remapped Spigot BuildTools before compiling this plugin. Use the TrueOG Bootstrap.")
+}
+
+repositories {
+    mavenCentral()
+    gradlePluginPortal()
+    maven("https://repo.purpurmc.org/snapshots")
+    maven("https://repo.viaversion.com")
+    maven("https://repo.dmulloy2.net/repository/public")
+    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots")
+    maven("https://oss.sonatype.org/content/repositories/snapshots")
+    maven("https://oss.sonatype.org/content/repositories/central")
+    maven("file://${System.getProperty("user.home")}/.m2/repository")
 }
 
 dependencies {
