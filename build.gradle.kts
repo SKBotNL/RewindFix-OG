@@ -14,23 +14,21 @@ group = "nl.skbotnl.rewindfixog" // Declare bundle identifier.
 version = "1.2.1" // Declare plugin version (will be in .jar).
 val apiVersion = "1.19" // Declare minecraft server target version.
 
-val selfMavenLocalRepo = System.getProperty("SELF_MAVEN_LOCAL_REPO")
-var addedBootstrapRepo = false
-if (selfMavenLocalRepo != null) {
-    val repoFile = file(selfMavenLocalRepo)
-    if (repoFile.exists()) {
-        println("Using SELF_MAVEN_LOCAL_REPO at: $selfMavenLocalRepo")
+val customMavenLocal = System.getProperty("SELF_MAVEN_LOCAL_REPO")
+if (customMavenLocal != null) {
+    val mavenLocalDir = file(customMavenLocal)
+    if (mavenLocalDir.isDirectory) {
+        println("Using SELF_MAVEN_LOCAL_REPO at: $customMavenLocal")
         repositories {
             maven {
-                url = uri("file://${repoFile.absolutePath}")
+                url = uri("file://${mavenLocalDir.absolutePath}")
             }
         }
-        addedBootstrapRepo = true
     } else {
-        logger.error("ERROR: You must build remapped Spigot BuildTools before compiling this plugin. Use the TrueOG Bootstrap.")
+        logger.error("TrueOG Bootstrap not found, defaulting to ~/.m2 for mavenLocal()")
     }
 } else {
-    logger.error("ERROR: You must build remapped Spigot BuildTools before compiling this plugin. Use the TrueOG Bootstrap.")
+    logger.error("TrueOG Bootstrap not found, defaulting to ~/.m2 to mavenLocal()")
 }
 
 repositories {
