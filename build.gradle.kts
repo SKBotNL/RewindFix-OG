@@ -52,6 +52,19 @@ dependencies {
     compileOnly("com.comphenix.protocol:ProtocolLib:5.1.0") // Import ProtocolLib API.
 }
 
+tasks.named<ProcessResources>("processResources") {
+    val props = mapOf(
+        "version" to version,
+        "apiVersion" to apiVersion
+    )
+
+    inputs.properties(props) // Indicates to rerun if version changes.
+
+    filesMatching("plugin.yml") {
+        expand(props)
+    }
+}
+
 tasks.withType<AbstractArchiveTask>().configureEach { // Ensure reproducible builds.
     isPreserveFileTimestamps = false
     isReproducibleFileOrder = true
