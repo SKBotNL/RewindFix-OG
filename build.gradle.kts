@@ -1,5 +1,5 @@
 plugins {
-    id("com.gradleup.shadow") version "8.3.2" // Import shadow API.
+    id("com.gradleup.shadow") version "8.3.5" // Import shadow API.
     java // Tell gradle this is a java project.
     eclipse // Import eclipse plugin for IDE integration.
     kotlin("jvm") version "2.0.21" // Import kotlin jvm plugin for kotlin/java integration.
