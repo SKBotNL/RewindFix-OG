@@ -7,8 +7,8 @@ import com.comphenix.protocol.events.PacketAdapter
 import com.comphenix.protocol.events.PacketEvent
 import com.viaversion.viaversion.api.Via
 import com.viaversion.viaversion.api.ViaAPI
-import net.minecraft.world.entity.animal.horse.EntityHorseAbstract
-import net.minecraft.world.entity.vehicle.EntityBoat
+import net.minecraft.world.entity.animal.horse.AbstractHorse
+import net.minecraft.world.entity.vehicle.Boat
 import org.bukkit.Bukkit
 import org.bukkit.attribute.Attribute
 import org.bukkit.craftbukkit.v1_19_R3.entity.CraftAbstractHorse
@@ -80,7 +80,7 @@ class RewindFixOG : JavaPlugin() {
                 }
                 if (event.player.vehicle is CraftBoat) {
                     val craftBoat = event.player.vehicle as CraftBoat
-                    val nmsBoat: EntityBoat = craftBoat.handle
+                    val nmsBoat: Boat = craftBoat.handle
                     if (Helper.getBoatTimeout(player.uniqueId) != 0L) {
                         return
                     }
@@ -94,7 +94,7 @@ class RewindFixOG : JavaPlugin() {
                         return
                     }
                     val speed = craftHorse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.value ?: return
-                    val nmsHorse: EntityHorseAbstract = craftHorse.handle
+                    val nmsHorse: AbstractHorse = craftHorse.handle
                     val loc = player.location
                     val vec = loc.direction
                     vec.setY(0)
