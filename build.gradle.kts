@@ -74,6 +74,10 @@ tasks.withType<AbstractArchiveTask>().configureEach { // Ensure reproducible bui
     isReproducibleFileOrder = true
 }
 
+tasks.assemble {
+    dependsOn(tasks.reobfJar)
+}
+
 tasks.shadowJar {
     archiveClassifier.set("") // Use empty string instead of null
     from("LICENSE") {
