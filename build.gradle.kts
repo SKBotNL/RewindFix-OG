@@ -1,4 +1,5 @@
 plugins {
+    id("io.papermc.paperweight.userdev") version "2.0.0-beta.11"
     id("com.gradleup.shadow") version "8.3.2" // Import shadow API.
     java // Tell gradle this is a java project.
     eclipse // Import eclipse plugin for IDE integration.
@@ -14,10 +15,17 @@ group = "nl.skbotnl.rewindfixog" // Declare bundle identifier.
 version = "1.2.1" // Declare plugin version (will be in .jar).
 val apiVersion = "1.19" // Declare minecraft server target version.
 
+paperweight.reobfArtifactConfiguration = io.papermc.paperweight.userdev.ReobfArtifactConfiguration.REOBF_PRODUCTION
+
+tasks.assemble {
+    dependsOn(tasks.reobfJar)
+}
+
 repositories {
     mavenCentral()
     gradlePluginPortal()
     mavenLocal()
+    maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.purpurmc.org/snapshots")
     maven("https://repo.viaversion.com")
     maven("https://repo.dmulloy2.net/repository/public")
@@ -41,10 +49,9 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT")
-    compileOnly("org.spigotmc:spigot:1.19.4-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("1.19.4-R0.1-SNAPSHOT")
+
     compileOnly("io.github.miniplaceholders:miniplaceholders-api:2.2.3") // Import MiniPlaceholders API.
-    compileOnly("org.purpurmc.purpur:purpur-api:1.19.4-R0.1-SNAPSHOT") // Import Purpur API.
     compileOnly("com.viaversion:viaversion-api:5.0.5") // Import ViaVersion API.
     compileOnly("com.comphenix.protocol:ProtocolLib:5.1.0") // Import ProtocolLib API.
 }
