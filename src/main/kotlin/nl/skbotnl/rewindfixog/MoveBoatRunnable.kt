@@ -7,7 +7,6 @@ import org.bukkit.util.Vector
 
 class MoveBoatRunnable(private val boat: Boat, private val vec: Vector) : Runnable {
     override fun run() {
-        // move(EnumMoveType arg0, Vec3D arg1)
         boat.move(MoverType.PLAYER, Vec3(vec.x, vec.y, vec.z))
     }
 }

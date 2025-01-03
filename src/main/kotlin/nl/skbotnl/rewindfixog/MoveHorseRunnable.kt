@@ -7,7 +7,6 @@ import org.bukkit.util.Vector
 
 class MoveHorseRunnable(private val horse: AbstractHorse, private val vec: Vector) : Runnable {
     override fun run() {
-        // move(EnumMoveType arg0, Vec3D arg1)
         horse.move(MoverType.PLAYER, Vec3(vec.x, vec.y, vec.z))
     }
 }
