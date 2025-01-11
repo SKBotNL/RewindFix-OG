@@ -26,12 +26,8 @@ repositories {
     gradlePluginPortal()
     mavenLocal()
     maven("https://repo.papermc.io/repository/maven-public/")
-    maven("https://repo.purpurmc.org/snapshots")
     maven("https://repo.viaversion.com")
     maven("https://repo.dmulloy2.net/repository/public")
-    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots")
-    maven("https://oss.sonatype.org/content/repositories/snapshots")
-    maven("https://oss.sonatype.org/content/repositories/central")
     val customMavenLocal = System.getProperty("SELF_MAVEN_LOCAL_REPO")
     if (customMavenLocal != null) {
         val mavenLocalDir = file(customMavenLocal)
