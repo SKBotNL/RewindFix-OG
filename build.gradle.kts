@@ -1,25 +1,28 @@
+import java.io.BufferedReader
+
 plugins {
-    id("io.papermc.paperweight.userdev") version "2.0.0-beta.11"
-    id("com.gradleup.shadow") version "8.3.2" // Import shadow API.
-    java // Tell gradle this is a java project.
-    eclipse // Import eclipse plugin for IDE integration.
-    kotlin("jvm") version "2.0.21" // Import kotlin jvm plugin for kotlin/java integration.
+    kotlin("jvm") version "2.1.21"
+    id("io.papermc.paperweight.userdev") version "2.0.0-beta.17"
+    id("com.gradleup.shadow") version "8.3.5"
+    eclipse
 }
 
-java {
-    // Declare java version.
-    sourceCompatibility = JavaVersion.VERSION_17
-}
+val commitHash = Runtime
+    .getRuntime()
+    .exec(arrayOf("git", "rev-parse", "--short=10", "HEAD"))
+    .let { process ->
+        process.waitFor()
+        val output = process.inputStream.use {
+            it.bufferedReader().use(BufferedReader::readText)
+        }
+        process.destroy()
+        output.trim()
+    }
 
-group = "nl.skbotnl.rewindfixog" // Declare bundle identifier.
-version = "1.2.1" // Declare plugin version (will be in .jar).
-val apiVersion = "1.19" // Declare minecraft server target version.
+val apiVersion = "1.19"
 
-paperweight.reobfArtifactConfiguration = io.papermc.paperweight.userdev.ReobfArtifactConfiguration.REOBF_PRODUCTION
-
-tasks.assemble {
-    dependsOn(tasks.reobfJar)
-}
+group = "nl.skbotnl.rewindfixog"
+version = "$apiVersion-$commitHash"
 
 repositories {
     mavenCentral()
@@ -28,59 +31,25 @@ repositories {
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.viaversion.com")
     maven("https://repo.dmulloy2.net/repository/public")
-    val customMavenLocal = System.getProperty("SELF_MAVEN_LOCAL_REPO")
-    if (customMavenLocal != null) {
-        val mavenLocalDir = file(customMavenLocal)
-        if (mavenLocalDir.isDirectory) {
-            println("Using SELF_MAVEN_LOCAL_REPO at: $customMavenLocal")
-            maven {
-                url = uri("file://${mavenLocalDir.absolutePath}")
-            }
-        } else {
-            logger.error("TrueOG Bootstrap not found, defaulting to ~/.m2 for mavenLocal()")
-        }
-    } else {
-        logger.error("TrueOG Bootstrap not found, defaulting to ~/.m2 to mavenLocal()")
-    }
 }
 
 dependencies {
     paperweight.paperDevBundle("1.19.4-R0.1-SNAPSHOT")
 
-    compileOnly("io.github.miniplaceholders:miniplaceholders-api:2.2.3") // Import MiniPlaceholders API.
-    compileOnly("com.viaversion:viaversion-api:5.0.5") // Import ViaVersion API.
-    compileOnly("com.comphenix.protocol:ProtocolLib:5.1.0") // Import ProtocolLib API.
+    compileOnly("io.github.miniplaceholders:miniplaceholders-api:2.2.3")
+    compileOnly("com.viaversion:viaversion-api:5.0.5")
+    compileOnly("com.comphenix.protocol:ProtocolLib:5.1.0")
 }
 
-tasks.named<ProcessResources>("processResources") {
-    val props = mapOf(
-        "version" to version,
-        "apiVersion" to apiVersion
-    )
-
-    inputs.properties(props) // Indicates to rerun if version changes.
-
-    filesMatching("plugin.yml") {
-        expand(props)
-    }
+val targetJavaVersion = 17
+kotlin {
+    jvmToolchain(targetJavaVersion)
 }
 
-tasks.withType<AbstractArchiveTask>().configureEach { // Ensure reproducible builds.
-    isPreserveFileTimestamps = false
-    isReproducibleFileOrder = true
-}
+paperweight.reobfArtifactConfiguration = io.papermc.paperweight.userdev.ReobfArtifactConfiguration.REOBF_PRODUCTION
 
 tasks.assemble {
     dependsOn(tasks.reobfJar)
-}
-
-tasks.shadowJar {
-    archiveClassifier.set("") // Use empty string instead of null
-    from("LICENSE") {
-        into("/")
-    }
-    exclude("io.github.miniplaceholders.*") // Exclude the MiniPlaceholders package from being shadowed.
-    minimize()
 }
 
 tasks.build {
@@ -91,20 +60,36 @@ tasks.jar {
     archiveClassifier.set("part")
 }
 
-tasks.withType<JavaCompile>().configureEach {
-    options.compilerArgs.add("-parameters")
-    options.compilerArgs.add("-Xlint:deprecation") // Triggers deprecation warning messages.
-    options.encoding = "UTF-8"
-    options.isFork = true
+tasks.shadowJar {
+    archiveClassifier.set("")
+    exclude("io.github.miniplaceholders.*")
+    minimize()
 }
 
-kotlin {
-    jvmToolchain(17)
+tasks.named<ProcessResources>("processResources") {
+    val props = mapOf(
+        "version" to version,
+        "apiVersion" to apiVersion,
+    )
+    inputs.properties(props)
+    filteringCharset = "UTF-8"
+    filesMatching("plugin.yml") {
+        expand(props)
+    }
+
+    from("LICENSE") {
+        into("/")
+    }
+}
+
+tasks.withType<AbstractArchiveTask>().configureEach {
+    isPreserveFileTimestamps = false
+    isReproducibleFileOrder = true
 }
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(targetJavaVersion)
         vendor = JvmVendorSpec.GRAAL_VM
     }
 }
