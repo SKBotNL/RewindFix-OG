@@ -4,6 +4,7 @@ import java.util.*
 
 object Helper {
     private var boatTimeout: MutableMap<UUID, Long> = HashMap()
+
     fun getBoatTimeout(uuid: UUID): Long {
         val cooldown: Long
         if (!boatTimeout.containsKey(uuid)) {

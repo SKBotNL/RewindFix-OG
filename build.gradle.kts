@@ -4,6 +4,7 @@ plugins {
     kotlin("jvm") version "2.1.21"
     id("io.papermc.paperweight.userdev") version "2.0.0-beta.17"
     id("com.gradleup.shadow") version "8.3.6"
+    id("com.diffplug.spotless") version "7.0.4"
     eclipse
 }
 
@@ -53,6 +54,7 @@ tasks.assemble {
 }
 
 tasks.build {
+    dependsOn(tasks.spotlessApply)
     dependsOn(tasks.shadowJar)
 }
 
@@ -94,3 +96,10 @@ java {
     }
 }
 
+spotless {
+    kotlin {
+        ktfmt().kotlinlangStyle().configure {
+            it.setMaxWidth(120)
+        }
+    }
+}
